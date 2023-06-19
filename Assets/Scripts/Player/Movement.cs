@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using DG.Tweening;
 
 public class Movement : MonoBehaviour
@@ -96,14 +97,14 @@ public class Movement : MonoBehaviour
             rb.gravityScale = 3;
         }
 
-        if(coll.onWall && !coll.onGround)
-        {
-            if (x != 0 && !wallGrab)
-            {
-                wallSlide = true;
-                WallSlide();
-            }
-        }
+        //if(coll.onWall && !coll.onGround)
+        //{
+        //    if (x != 0 && !wallGrab)
+        //    {
+        //        wallSlide = true;
+        //        WallSlide();
+        //    }
+        //}
 
         if (!coll.onWall || coll.onGround)
             wallSlide = false;

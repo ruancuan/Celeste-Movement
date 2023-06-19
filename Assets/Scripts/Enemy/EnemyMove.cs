@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class EnemyMove : MonoBehaviour
 {
     [Header("Layers")]
     public LayerMask groundLayer;
@@ -40,6 +40,10 @@ public class Enemy : MonoBehaviour
         else if (onRightWall) {
             dir = leftDir;
         }
+    }
+
+    private void FixedUpdate()
+    {
         Walk(dir);
     }
 
