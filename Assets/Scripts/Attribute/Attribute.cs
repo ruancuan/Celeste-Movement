@@ -39,11 +39,14 @@ public class Attribute : MonoBehaviour
     public void AddAttributeListener(AttributeType type, Action handle) {
         Action action;
         onAttributeChangeDict.TryGetValue(type, out action);
-        if (action == null) {
-            action =()=> { };
+        if (action == null)
+        {
+            action += handle;
             onAttributeChangeDict.Add(type, action);
         }
-        action += handle;
+        else {
+            action += handle;
+        }
     }
     public void RemoveAttributeListener(AttributeType type, Action handle)
     {
@@ -51,7 +54,7 @@ public class Attribute : MonoBehaviour
         onAttributeChangeDict.TryGetValue(type, out action);
         if (action != null)
         {
-            action += handle;
+            action -= handle;
         }
     }
     public void TriggerAttributeChange(AttributeType type) {
@@ -69,6 +72,7 @@ public class Attribute : MonoBehaviour
             if (data.type == type)
             {
                 data.Current+=modify;
+                attrList[k] = data;
                 TriggerAttributeChange(type);
                 break;
             }

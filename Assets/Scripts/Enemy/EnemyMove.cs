@@ -19,6 +19,7 @@ public class EnemyMove : MonoBehaviour
     private Vector2 rightDir = new Vector2(1, 0);
     private Vector2 dir;
     private Rigidbody2D rb;
+    public float moveForce=1f;
 
     // Start is called before the first frame update
     void Start()

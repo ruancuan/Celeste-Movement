@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class EnemyAnimation : MonoBehaviour
 {
-    private const string hitAnimationName = "hit";
-    private const string deadAnimationName = "dead";
+    public static readonly string hitAnimationName = "hit";
+    public static readonly string deadAnimationName = "dead";
+    public static readonly int hitAnimationHash = Animator.StringToHash(hitAnimationName);
+    public static readonly int deadAnimationHash = Animator.StringToHash(deadAnimationName);
 
     public Animator animator;
+    private void Awake()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
     public void PlayHitAnimation() {
         if (animator) {
             animator.SetTrigger(hitAnimationName);

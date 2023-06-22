@@ -44,6 +44,7 @@ public class Bullet : MonoBehaviour
             else if (((1 << other.gameObject.layer) | enemyLayer) == enemyLayer)
             {
                 Hit(other);
+                Recovery();
             }
         }
     }
