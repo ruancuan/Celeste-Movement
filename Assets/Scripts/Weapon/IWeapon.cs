@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IWeapon
 {
     public void Execute();
+    public void SetDir(float x,float y);
 }

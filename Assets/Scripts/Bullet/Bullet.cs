@@ -8,21 +8,32 @@ public class Bullet : MonoBehaviour
     public LayerMask enemyLayer;
 
     public float moveSpeed = 10f;
-    public Vector3 dir;
     private HpModifier hpModifier;
     public Attribute caster;
 
     private void Awake()
     {
-        dir = transform.right;
         hpModifier = GetComponent<HpModifier>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position, transform.position + dir, moveSpeed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, transform.position + transform.right, moveSpeed * Time.deltaTime);
     }
+
+    private float timeToDisable = 10;
+    private void OnEnable()
+    {
+        Invoke("DisableSelf", this.timeToDisable);
+    }
+
+    private void DisableSelf() {
+        if (this.enabled) {
+            this.Recovery();
+        }
+    }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {

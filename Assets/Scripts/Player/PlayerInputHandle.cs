@@ -18,6 +18,10 @@ public class PlayerInputHandle : MonoBehaviour
         if (Input.GetKey(shootKey)) {
             UseWeapon();
         }
+        float xRaw = Input.GetAxisRaw("Horizontal");
+        if (xRaw != 0 && weapon!=null) {
+            weapon.SetDir(xRaw, 0);
+        }
     }
 
     private void UseWeapon() {

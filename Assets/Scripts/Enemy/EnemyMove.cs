@@ -27,6 +27,8 @@ public class EnemyMove : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    private Quaternion leftDirRotation = Quaternion.Euler(0, 180, 0);
+    private Quaternion rightDirRotation = Quaternion.Euler(0, 0, 0);
     // Update is called once per frame
     void Update()
     {
@@ -36,9 +38,11 @@ public class EnemyMove : MonoBehaviour
         if (onLeftWall)
         {
             dir = rightDir;
+            this.transform.rotation = rightDirRotation;
         }
         else if (onRightWall) {
             dir = leftDir;
+            this.transform.rotation = leftDirRotation;
         }
     }
 

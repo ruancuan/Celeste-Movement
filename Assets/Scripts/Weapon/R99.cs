@@ -35,8 +35,14 @@ public class R99 : MonoBehaviour,IWeapon
         if (bulletPrefab) {
             Bullet bullet= GameObjectPool.Instance.GetOneBullet();
             bullet.transform.position = shootPos.transform.position;
-            bullet.transform.rotation = Quaternion.identity;
+            bullet.transform.rotation = Quaternion.Euler(0, 0, dir.x>0?0:180);
             bullet.caster = attribute;
         }
+    }
+
+    public void SetDir(float x,float y)
+    {
+        this.dir.x = x;
+        this.dir.y = y;
     }
 }

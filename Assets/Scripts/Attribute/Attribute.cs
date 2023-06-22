@@ -35,12 +35,41 @@ public struct AttributeData {
 public class Attribute : MonoBehaviour
 {
     public List<AttributeData> attrList=new List<AttributeData>();
+    private Dictionary<AttributeType, Action> onAttributeChangeDict=new Dictionary<AttributeType, Action>();
+    public void AddAttributeListener(AttributeType type, Action handle) {
+        Action action;
+        onAttributeChangeDict.TryGetValue(type, out action);
+        if (action == null) {
+            action =()=> { };
+            onAttributeChangeDict.Add(type, action);
+        }
+        action += handle;
+    }
+    public void RemoveAttributeListener(AttributeType type, Action handle)
+    {
+        Action action;
+        onAttributeChangeDict.TryGetValue(type, out action);
+        if (action != null)
+        {
+            action += handle;
+        }
+    }
+    public void TriggerAttributeChange(AttributeType type) {
+        Action action;
+        onAttributeChangeDict.TryGetValue(type, out action);
+        if (action != null)
+        {
+            action.Invoke();
+        }
+    }
+
     public void SetAttributeModifyByType(AttributeType type,float modify) {
         for (int k = 0; k < attrList.Count; k++) {
             AttributeData data = attrList[k];
             if (data.type == type)
             {
                 data.Current+=modify;
+                TriggerAttributeChange(type);
                 break;
             }
         }
