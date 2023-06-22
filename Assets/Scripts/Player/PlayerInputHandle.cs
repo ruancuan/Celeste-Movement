@@ -6,7 +6,7 @@ public class PlayerInputHandle : MonoBehaviour
 {
     public Transform cameraFollow;
     public float offset=2f;
-    public KeyCode shootKey = KeyCode.Mouse1;
+    public static KeyCode shootKey = KeyCode.Mouse1;
     public IWeapon weapon;
     private Vector3 leftPosition;
     private Vector3 rightPosition;

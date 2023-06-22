@@ -116,8 +116,8 @@ public class Movement : MonoBehaviour
 
             if (coll.onGround)
                 Jump(Vector2.up, false);
-            if (coll.onWall && !coll.onGround)
-                WallJump();
+            //if (coll.onWall && !coll.onGround)
+            //    WallJump();
         }
 
         if (Input.GetButtonDown("Fire1") && !hasDashed)
@@ -142,18 +142,25 @@ public class Movement : MonoBehaviour
         if (wallGrab || wallSlide || !canMove)
             return;
 
-        if(x > 0)
-        {
-            side = 1;
-            anim.Flip(side);
-        }
-        if (x < 0)
-        {
-            side = -1;
-            anim.Flip(side);
-        }
+        AnimationSet(x,y);
 
+    }
 
+    private void AnimationSet(float x,float y)
+    {
+        if (!Input.GetKey(PlayerInputHandle.shootKey))
+        {
+            if (x > 0)
+            {
+                side = 1;
+                anim.Flip(side);
+            }
+            if (x < 0)
+            {
+                side = -1;
+                anim.Flip(side);
+            }
+        }
     }
 
     void GroundTouch()
