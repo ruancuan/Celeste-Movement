@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     private BoxCollider2D collider2D;
     private Animator animator;
     private Rigidbody2D rigidbody2D;
+    public ParticleSystem deadParticle;
 
     public float hitInterval = 1;
 
@@ -76,10 +77,13 @@ public class Enemy : MonoBehaviour
     private void DeadHandle()
     {
         enemyAnimation.PlayDeadAnimation();
+        deadParticle?.Play();
+
         this.enemyMove.enabled = false;
         this.gameObject.layer = corpseLayer;
         Invoke("RemoveComponents", this.timeToDisable);
     }
+
 
     private void RemoveComponents()
     {
