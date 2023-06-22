@@ -6,7 +6,10 @@ public class R99 : MonoBehaviour,IWeapon
 {
     public Attribute attribute;
     public GameObject bulletPrefab;
+    public GameObject cartridgeCasePrefab;
+
     public float shootInterval=1f;
+    public int createBulletNum = 3;
     public Transform shootPos;
     public Vector2 dir = new Vector2(1, 0);
     public ParticleSystem shootParticle;
@@ -25,6 +28,7 @@ public class R99 : MonoBehaviour,IWeapon
         if(lastTime<=0) {
             lastTime = shootInterval;
             CreateBullet();
+            CreateCartridgeCase();
         }
     }
 
@@ -36,12 +40,41 @@ public class R99 : MonoBehaviour,IWeapon
         }
     }
 
-    private void CreateBullet() {
-        if (bulletPrefab) {
-            Bullet bullet= GameObjectPool.Instance.GetOneBullet();
+    public Vector2 rightShootCartridgeCaseDir = new Vector2(1, 1);
+    public Vector2 leftShootCartridgeCaseDir = new Vector2(1, 1);
+    private void CreateCartridgeCase()
+    {
+        if (cartridgeCasePrefab)
+        {
+            GameObject bullet = Instantiate(cartridgeCasePrefab);
             bullet.transform.position = shootPos.transform.position;
-            bullet.transform.rotation = AddRandomEuler();
-            bullet.caster = attribute;
+            bullet.transform.rotation = Quaternion.identity;
+
+            Rigidbody2D rig = bullet.GetComponent<Rigidbody2D>();
+            if (rig == null) {
+                rig = bullet.AddComponent<Rigidbody2D>();
+                if (dir.x > 0)
+                {
+                    rig.AddForce(leftShootCartridgeCaseDir,ForceMode2D.Force);
+                }
+                else {
+                    rig.AddForce(rightShootCartridgeCaseDir, ForceMode2D.Force);
+                }
+            }
+
+        }
+    }
+
+    private void CreateBullet() {
+        if (bulletPrefab)
+        {
+            for (int k = 0; k < createBulletNum; k++)
+            {
+                Bullet bullet = GameObjectPool.Instance.GetOneBullet();
+                bullet.transform.position = shootPos.transform.position;
+                bullet.transform.rotation = AddRandomEuler(k);
+                bullet.caster = attribute;
+            }
 
             PlayShootAnimtion();
             PlayShootAudio();
@@ -49,11 +82,11 @@ public class R99 : MonoBehaviour,IWeapon
         }
     }
 
-    private Quaternion AddRandomEuler() {
+    private Quaternion AddRandomEuler(int k) {
         float maxValue = Mathf.Max(Mathf.Abs(randomEuler.x), Mathf.Abs(randomEuler.y));
         float randomValue = Random.value * maxValue;
         randomValue = Mathf.Clamp(randomValue,randomEuler.x, randomEuler.y);
-        return Quaternion.Euler(0, 0, (dir.x > 0 ? 0 : 180)+ randomValue); 
+        return Quaternion.Euler(0, 0, (dir.x > 0 ? 0 : 180)+ randomValue+k*5-5); 
     }
 
     private void PlayShootAudio() {

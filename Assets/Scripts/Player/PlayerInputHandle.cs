@@ -31,11 +31,11 @@ public class PlayerInputHandle : MonoBehaviour
             if (cameraFollow != null) {
                 if (xRaw > 0)
                 {
-                    cameraFollow.transform.position = rightPosition;    
+                    cameraFollow.transform.localPosition = rightPosition;    
                 }
                 else
                 {
-                    cameraFollow.transform.position = leftPosition;
+                    cameraFollow.transform.localPosition = leftPosition;
                 }
             }
         }
