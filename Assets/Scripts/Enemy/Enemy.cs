@@ -66,6 +66,9 @@ public class Enemy : MonoBehaviour
             {
                 lastHitTime = Time.realtimeSinceStartup;
                 enemyAnimation.PlayHitAnimation();
+
+                AudioManager.Instance.PlayHitAudio();
+
                 if (attribute.GetAttributeByType(AttributeType.Hp) <= 0)
                 {
                     this.DeadHandle();

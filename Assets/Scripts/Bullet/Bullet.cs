@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     public LayerMask enemyLayer;
 
     public float moveSpeed = 10f;
+    public float timeToDisable = 10;
     private HpModifier hpModifier;
     private MotionModifier motionModifier;
     public Attribute caster;
@@ -24,7 +25,6 @@ public class Bullet : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, transform.position + transform.right, moveSpeed * Time.deltaTime);
     }
 
-    private float timeToDisable = 10;
     private void OnEnable()
     {
         Invoke("DisableSelf", this.timeToDisable);
@@ -76,6 +76,7 @@ public class Bullet : MonoBehaviour
     private void Recovery()
     {
         caster = null;
+        CancelInvoke("DisableSelf");
         GameObjectPool.Instance.PushOneBullet(this);
     }
 }

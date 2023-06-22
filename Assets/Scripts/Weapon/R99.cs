@@ -10,6 +10,7 @@ public class R99 : MonoBehaviour,IWeapon
     public Transform shootPos;
     public Vector2 dir = new Vector2(1, 0);
     public ParticleSystem shootParticle;
+    public Vector2 randomEuler = new Vector2(-10, 10);
 
 
     private MotionModifier motionModifier;
@@ -39,12 +40,24 @@ public class R99 : MonoBehaviour,IWeapon
         if (bulletPrefab) {
             Bullet bullet= GameObjectPool.Instance.GetOneBullet();
             bullet.transform.position = shootPos.transform.position;
-            bullet.transform.rotation = Quaternion.Euler(0, 0, dir.x>0?0:180);
+            bullet.transform.rotation = AddRandomEuler();
             bullet.caster = attribute;
 
             PlayShootAnimtion();
+            PlayShootAudio();
             AddForceToSelf();
         }
+    }
+
+    private Quaternion AddRandomEuler() {
+        float maxValue = Mathf.Max(Mathf.Abs(randomEuler.x), Mathf.Abs(randomEuler.y));
+        float randomValue = Random.value * maxValue;
+        randomValue = Mathf.Clamp(randomValue,randomEuler.x, randomEuler.y);
+        return Quaternion.Euler(0, 0, (dir.x > 0 ? 0 : 180)+ randomValue); 
+    }
+
+    private void PlayShootAudio() {
+        AudioManager.Instance.PlayShootAudio();
     }
 
     private void AddForceToSelf() {
