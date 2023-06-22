@@ -75,8 +75,9 @@ public class Enemy : MonoBehaviour
     private void DeadHandle()
     {
         enemyAnimation.PlayDeadAnimation();
-        this.collider2D.enabled = false;
+        //this.collider2D.enabled = false;
         this.enemyMove.enabled = false;
-        Destroy(rigidbody2D);
+        //Destroy(rigidbody2D);
+        this.gameObject.layer = corpseLayer;
     }
 }

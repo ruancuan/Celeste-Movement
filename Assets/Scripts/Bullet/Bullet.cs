@@ -9,11 +9,13 @@ public class Bullet : MonoBehaviour
 
     public float moveSpeed = 10f;
     private HpModifier hpModifier;
+    private MotionModifier motionModifier;
     public Attribute caster;
 
     private void Awake()
     {
         hpModifier = GetComponent<HpModifier>();
+        motionModifier = GetComponent<MotionModifier>();
     }
 
     // Update is called once per frame
@@ -49,11 +51,25 @@ public class Bullet : MonoBehaviour
         }
     }
     private void Hit(Collider2D other) {
-        if (hpModifier != null && caster!=null) {
+        if (caster != null)
+        {
             Attribute parent = other.GetComponent<Attribute>();
-            if (parent != null)
+            if (parent == null) {
+                return;
+            }
+            if (hpModifier != null)
             {
-                hpModifier.OnBuffExecute(caster, parent);
+                if (parent != null)
+                {
+                    hpModifier.OnBuffExecute(caster, parent);
+
+                }
+            }
+            if (motionModifier != null)
+            {
+                Vector2 offset = other.transform.position - transform.position;
+                motionModifier.SetMotionDir(offset.normalized);
+                motionModifier.OnBuffExecute(caster, parent);
             }
         }
     }
