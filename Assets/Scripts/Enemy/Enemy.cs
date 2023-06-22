@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     public float hitInterval = 1;
 
     private int corpseLayer;
+    private float timeToDisable = 10;
 
     //private 
 
@@ -75,9 +76,14 @@ public class Enemy : MonoBehaviour
     private void DeadHandle()
     {
         enemyAnimation.PlayDeadAnimation();
-        //this.collider2D.enabled = false;
         this.enemyMove.enabled = false;
-        //Destroy(rigidbody2D);
         this.gameObject.layer = corpseLayer;
+        Invoke("RemoveComponents", this.timeToDisable);
+    }
+
+    private void RemoveComponents()
+    {
+        this.collider2D.enabled = false;
+        Destroy(rigidbody2D);
     }
 }

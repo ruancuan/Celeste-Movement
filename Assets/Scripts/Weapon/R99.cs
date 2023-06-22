@@ -9,8 +9,10 @@ public class R99 : MonoBehaviour,IWeapon
     public float shootInterval=1f;
     public Transform shootPos;
     public Vector2 dir = new Vector2(1, 0);
-    private MotionModifier motionModifier;
+    public ParticleSystem shootParticle;
 
+
+    private MotionModifier motionModifier;
     private float lastTime = 0f;
     private void Awake()
     {
@@ -40,6 +42,7 @@ public class R99 : MonoBehaviour,IWeapon
             bullet.transform.rotation = Quaternion.Euler(0, 0, dir.x>0?0:180);
             bullet.caster = attribute;
 
+            PlayShootAnimtion();
             AddForceToSelf();
         }
     }
@@ -48,6 +51,12 @@ public class R99 : MonoBehaviour,IWeapon
         if (motionModifier) {
             motionModifier.SetMotionDir(-dir);
             motionModifier.OnBuffExecute(attribute,attribute);
+        }
+    }
+
+    public void PlayShootAnimtion() {
+        if (shootParticle) {
+            shootParticle.Play();
         }
     }
 
