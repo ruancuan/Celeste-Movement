@@ -4981,8 +4981,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   collisionRadius: 0.25
-  rightOffset: {x: 0.05, y: -0.1}
-  leftOffset: {x: -0.05, y: -0.1}
+  rightOffset: {x: 0.1, y: -0.1}
+  leftOffset: {x: -0.1, y: -0.1}
   speed: 5
   wallJumpLerp: 10
   dir: {x: 0, y: 0}
