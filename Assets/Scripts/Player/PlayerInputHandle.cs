@@ -10,7 +10,7 @@ public class PlayerInputHandle : MonoBehaviour
     public IWeapon weapon;
     private Vector3 leftPosition;
     private Vector3 rightPosition;
-    private Attribute attribute;
+    public static Attribute attribute;
     private int corpseLayer;
     private float timeToDisable = 10;
     private Movement movement;

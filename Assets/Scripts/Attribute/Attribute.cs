@@ -36,6 +36,10 @@ public class Attribute : MonoBehaviour
 {
     public List<AttributeData> attrList=new List<AttributeData>();
     private Dictionary<AttributeType, Action> onAttributeChangeDict=new Dictionary<AttributeType, Action>();
+    /// <summary>
+    /// 记录上一次受到力的时间，防止短时间内受到多次力的施加
+    /// </summary>
+    public float lastForceTime = 0;
     public void AddAttributeListener(AttributeType type, Action handle) {
         Action action;
         onAttributeChangeDict.TryGetValue(type, out action);

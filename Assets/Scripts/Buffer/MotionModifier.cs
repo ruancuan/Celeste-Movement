@@ -7,6 +7,7 @@ public class MotionModifier : Modifier
     public Vector2 dir = Vector2.zero;
     [Header("击退力度")]
     public float forceScale = 10f;
+    public float forceAddInterval = 0.05f;
 
     public void SetMotionDir(Vector2 dir) {
         this.dir = dir;
@@ -16,7 +17,12 @@ public class MotionModifier : Modifier
         if (parent) {
             Rigidbody2D rig = parent.GetComponent<Rigidbody2D>();
             if (rig) {
-                rig.AddForce(dir* forceScale);
+                //限制最大的力度
+                if (Time.realtimeSinceStartup-parent.lastForceTime > forceAddInterval)
+                {
+                    rig.AddForce(dir * forceScale);
+                    parent.lastForceTime = Time.realtimeSinceStartup;
+                }
             }
         }
     }

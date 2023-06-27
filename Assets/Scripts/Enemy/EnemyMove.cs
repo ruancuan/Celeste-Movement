@@ -6,6 +6,7 @@ public class EnemyMove : MonoBehaviour
 {
     [Header("Layers")]
     public LayerMask groundLayer;
+    public LayerMask enemyLayer;
 
     [Space]
     [Header("Collision")]
@@ -17,9 +18,12 @@ public class EnemyMove : MonoBehaviour
 
     private Vector2 leftDir = new Vector2(-1, 0);
     private Vector2 rightDir = new Vector2(1, 0);
+    [SerializeField]
     private Vector2 dir;
+    private Vector2 leftTranOffset, rightTranOffset;
     private Rigidbody2D rb;
     public float moveForce=1f;
+    public bool onTouchEnemy = false;
 
     // Start is called before the first frame update
     void Start()
@@ -30,12 +34,17 @@ public class EnemyMove : MonoBehaviour
 
     private Quaternion leftDirRotation = Quaternion.Euler(0, 180, 0);
     private Quaternion rightDirRotation = Quaternion.Euler(0, 0, 0);
+
     // Update is called once per frame
     void Update()
     {
+        leftTranOffset = (Vector2)transform.position + leftOffset;
+        rightTranOffset = (Vector2)transform.position + rightOffset;
 
-        bool onRightWall = Physics2D.OverlapCircle((Vector2)transform.position + rightOffset, collisionRadius, groundLayer);
-        bool onLeftWall = Physics2D.OverlapCircle((Vector2)transform.position + leftOffset, collisionRadius, groundLayer);
+        bool onRightWall = Physics2D.OverlapCircle(rightTranOffset, collisionRadius, groundLayer);
+        bool onLeftWall = Physics2D.OverlapCircle(leftTranOffset, collisionRadius, groundLayer);
+        onTouchEnemy = Physics2D.OverlapCircle(leftTranOffset, collisionRadius, enemyLayer) || Physics2D.OverlapCircle(rightTranOffset, collisionRadius, enemyLayer);
+
         if (onLeftWall)
         {
             dir = rightDir;
